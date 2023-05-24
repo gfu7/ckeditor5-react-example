@@ -4,6 +4,7 @@ import { ClassicEditor } from "@ckeditor/ckeditor5-editor-classic";
 import { Essentials } from "@ckeditor/ckeditor5-essentials";
 import { Bold, Italic } from "@ckeditor/ckeditor5-basic-styles";
 import { Paragraph } from "@ckeditor/ckeditor5-paragraph";
+import { testLongData } from "../../data";
 
 const editorConfiguration = {
   plugins: [Essentials, Bold, Italic, Paragraph],
@@ -17,13 +18,15 @@ class App extends Component {
         <CKEditor
           editor={ClassicEditor}
           config={editorConfiguration}
-          data="<p>Hello from CKEditor 5!</p>"
+          data={testLongData}
           onReady={(editor) => {
             // You can store the "editor" and use when it is needed.
             console.log("Editor is ready to use!", editor);
           }}
           onChange={(event, editor) => {
+            console.time("editor.getData()");
             const data = editor.getData();
+            console.timeEnd("editor.getData()");
             console.log({ event, editor, data });
           }}
           onBlur={(event, editor) => {
